@@ -9,34 +9,35 @@ namespace ialopezg\Libraries;
  */
 interface CollectionInterface {
     /**
-     * Get all items.
+     * Get all items from data store.
      *
      * @return array An array containing all connection items.
      */
     public function all();
 
     /**
-     * Gets an item using a key.
+     * Gets an object from data store using its key name.
      *
-     * @param string $key Requested key.
+     * @param string $key       key name requested.
+     * @param mixed $default    default value to be return, if key name not exists.
      *
-     * @return mixed Return the value of requested key or false value if not found.
+     * @return mixed the object associated to requested key name; otherwise `$default` value.
      */
-    public function get($key);
+    public function get($key, $default = null);
 
     /**
-     * Checks if item exist using key name.
+     * Checks if an object exists into the data store using its key name.
      *
      * @param string $key requested key.
-     * @return bool <code>true</code> if key exist, otherwise <code>false</code>.
+     * @return bool <code>true</code> if key name exists, otherwise <code>false</code>.
      */
     public function has($key);
 
     /**
-     * Sets or updates an item, using its key name.
+     * Sets or updates a key name and its value.
      *
-     * @param string $key Key name to set.
-     * @param mixed $value Value to set.
+     * @param string $key key name.
+     * @param mixed $value value to set.
      */
     public function set($key, $value);
 }
