@@ -1,0 +1,48 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 90%;
+    margin: auto;
+    border: 1px solid #f1f1f1;
+}
+
+header {
+    /* IE10 Consumer Preview */
+    background-image: -ms-linear-gradient(bottom, #EDD799 0%, #BF7F37 100%);
+
+    /* Mozilla Firefox */
+    background-image: -moz-linear-gradient(bottom, #EDD799 0%, #BF7F37 100%);
+
+    /* Opera */
+    background-image: -o-linear-gradient(bottom, #EDD799 0%, #BF7F37 100%);
+
+    /* Webkit (Safari/Chrome 10) */
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #EDD799), color-stop(1, #BF7F37));
+
+    /* Webkit (Chrome 11+) */
+    background-image: -webkit-linear-gradient(bottom, #EDD799 0%, #BF7F37 100%);
+
+    /* W3C Markup, IE10 Release Preview */
+    background-image: linear-gradient(to top, #EDD799 0%, #BF7F37 100%);
+}
+
+header h1 {
+    margin: 0 10px;
+    padding: 15px;
+    text-align: center;
+}
+main {
+    margin: 10px;
+    padding: 10px;
+}
+
+fieldset {
+    border-radius: 5px;
+}
+
+.invalid {
+    border: 2px solid lightcoral;
+}
