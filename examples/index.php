@@ -14,17 +14,16 @@ if (isset($_SERVER['CONTENT_TYPE']) && $_SERVER['CONTENT_TYPE'] === 'application
     switch ($action) {
         case 'add':
             $request = json_decode(trim(file_get_contents("php://input")), true);
-            $name = $request['name'];
-            $default_connection = $request['default'] ? "databases.connections.{$name}" : '';
-            unset($request['name'], $request['default']);
+            $default_connection = $request['default_connection'] ? $request['name'] : '';
+            unset($request['default_connection']);
 
-            $_SESSION['databases']->set("databases.connections.{$name}", $request);
+            $_SESSION['databases']->set("databases.connections.{$request['name']}", $request);
             $_SESSION['databases']->set("databases.default_connection",
                 (empty($default_connection) ? array_keys($_SESSION['databases']->get('databases.connections'))[0] : $default_connection));
-            $name = strtoupper($name);
+            $name = strtoupper($request['name']);
 
             $result['status'] = 'success';
-            $result['message'] = "Connection name ${name} successfully added.";
+            $result['message'] = "Connection name {$request['name']} successfully added.";
             break;
         case 'default':
             $request = json_decode(trim(file_get_contents("php://input")), true);
@@ -123,7 +122,7 @@ $_SESSION['databases']->set('databases.default_connection', $default_connection)
                             <input type="password" name="password" placeholder="Database user password" style="width: 94%; margin: 10px auto; padding: 5px;">
                             <input type="text" name="database" placeholder="Database name" style="width: 94%; margin: 10px auto; padding: 5px;">
                             <input type="text" name="charset" placeholder="Database charset" style="width: 94%; margin: 10px auto; padding: 5px;">
-                            <input type="checkbox" name="default_connection" value="1"> Set default connection
+                            <input type="checkbox" name="default_connection" value="1"> Default connection
                         </fieldset>
                         <button class="btn-add" style="width: 100%; padding: 10px; margin: 10px auto;">Add connection</button>
                     </form>
@@ -161,7 +160,6 @@ $_SESSION['databases']->set('databases.default_connection', $default_connection)
 
                     await loadItems(container)
                 } else {
-                    console.log('j')
                     alert('Please, fill all required fields.')
                 }
                 cleanForm(e.target)
@@ -259,9 +257,17 @@ $_SESSION['databases']->set('databases.default_connection', $default_connection)
                         editButton.setAttribute('data-id', name)
                         editButton.innerText = 'edit'
                         editButton.style.width = '100%'
-                        editButton.addEventListener('click', function (e) {
+                        editButton.addEventListener('click', function (e, key) {
                             if (connections.hasOwnProperty(e.target.getAttribute('data-id'))) {
-                                loadItems(container)
+                                document.querySelector('input[name="name"]').value = name
+                                document.querySelector('input[name="name"]').disabled = true
+                                document.querySelector('input[name="driver"]').value = connection.driver
+                                document.querySelector('input[name="hostname"]').value = connection.hostname
+                                document.querySelector('input[name="username"]').value = connection.username
+                                document.querySelector('input[name="password"]').value = connection.password
+                                document.querySelector('input[name="database"]').value = connection.database
+                                document.querySelector('input[name="charset"]').value = connection.charset
+                                document.querySelector('input[name="default_connection"]').checked = name === data.databases.default_connection
                             }
                         })
                         cell.append(editButton)
