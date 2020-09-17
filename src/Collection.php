@@ -12,6 +12,8 @@ abstract class Collection implements \ArrayAccess, CollectionInterface, \Iterato
     protected $data = null;
     /** @var array data cache store. */
     protected $cache = [];
+    /** @var array Protected properties. */
+    protected $protectedProperties;
 
     /**
      * Sets default options, if any.
@@ -20,6 +22,26 @@ abstract class Collection implements \ArrayAccess, CollectionInterface, \Iterato
      */
     public function __construct(array $data) {
         $this->data = array_merge($this->getDefaults(), $data);
+
+        $this->protectedProperties = array_keys(get_object_vars($this));
+    }
+
+    /**
+     * Get a configuration property.
+     *
+     * @param $key
+     * @return mixed|null
+     */
+    public function __get($key) {
+        if (in_array($key, $this->protectedProperties)) {
+            throw new \InvalidArgumentException('$key is a protected property, use a different key');
+        }
+
+        return $this->has($key) ? $this->get($key) : null;
+    }
+
+    public function count() {
+        return is_array($this->data) ? count($this->data) : 0;
     }
 
     /**
@@ -169,7 +191,7 @@ abstract class Collection implements \ArrayAccess, CollectionInterface, \Iterato
      * @inheritDoc
      */
     public function offsetUnset($offset) {
-        $this->set($offset, null);
+        unset($this->data[$offset]);
     }
 
     /*
