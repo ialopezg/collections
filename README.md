@@ -48,7 +48,16 @@ $collection->remove('item_name');
 echo $collection->count();
 ```
 
-Please, check [examples](examples) directory for more details of usage.
+Please, check [examples](examples) directory for more details of usage or run:
+```shell script
+### from linux bash
+./server.sh
+``` 
+or
+```shell script
+### from windows bash
+server.bat
+``` 
 
 ## License
 
